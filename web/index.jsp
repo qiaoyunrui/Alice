@@ -1,4 +1,8 @@
-<%--
+<%@ page import="com.juhezi.alice.dao.UserDao" %>
+<%@ page import="com.juhezi.alice.dao.impl.UserDaoImpl" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="com.juhezi.alice.domain.User" %><%--
   Created by IntelliJ IDEA.
   User: qiao1
   Date: 2017/3/8
@@ -11,7 +15,6 @@
     <title>Alice - 享受美好的音乐</title>
 </head>
 <body>
-
 
 </body>
 </html>
