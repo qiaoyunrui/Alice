@@ -9,9 +9,15 @@
 <html>
 <head>
     <title>Alice - 享受美好的音乐</title>
+    <script type="text/javascript">
+        function turn2Users() {
+//            window.open("users/users.jsp");
+            window.location.href = "users/users.jsp";
+        }
+    </script>
 </head>
 <body>
-
+<button onclick="turn2Users()">用户列表</button>
 
 </body>
 </html>
