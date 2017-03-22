@@ -7,6 +7,8 @@ import com.juhezi.alice.domain.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by qiao1 on 2017/3/8.
@@ -51,21 +53,36 @@ public class UserDaoImpl implements UserDao {
     public User findById(String id) throws SQLException {
         String sql = "select username,password,pickname," +
                 "avatar from user where id =?";
-        return (User) jdbcTemplete.query(sql, new ResultSetHandler() {
-            @Override
-            public Object doHandler(ResultSet resultSet) throws SQLException {
-                User user = null;
-                if (resultSet.next()) {
-                    user = new User();
-                    user.setId(id);
-                    user.setUsername(resultSet.getString(1));
-                    user.setPassword(resultSet.getString(2));
-                    user.setPickname(resultSet.getString(3));
-                    user.setAvatar(resultSet.getString(4));
-                }
-                return user;
+        return (User) jdbcTemplete.query(sql, resultSet -> {
+            User user = null;
+            if (resultSet.next()) {
+                user = new User();
+                user.setId(id);
+                user.setUsername(resultSet.getString(1));
+                user.setPassword(resultSet.getString(2));
+                user.setPickname(resultSet.getString(3));
+                user.setAvatar(resultSet.getString(4));
             }
+            return user;
         }, id);
     }
 
+    @Override
+    public List<User> findAll() throws SQLException {
+        String sql = "select id,username,password,pickname," +
+                "avatar from user";
+        return (List<User>) jdbcTemplete.query(sql, resultSet -> {
+            List<User> users = new ArrayList<>();
+            User user;
+            while (resultSet.next()) {
+                user = new User();
+                user.setId(resultSet.getString(1))
+                        .setUsername(resultSet.getString(2))
+                        .setPassword(resultSet.getString(3))
+                        .setPickname(resultSet.getString(4));
+                users.add(user);
+            }
+            return users;
+        });
+    }
 }
