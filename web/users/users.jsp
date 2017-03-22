@@ -15,15 +15,39 @@
 <html>
 <head>
     <title>Alice - 所有用户</title>
+    <style type="text/css">
+        .button-primary {
+            background-color: #039be5;
+            color: #ffffff;
+            margin: 4px;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+            padding: 8px 16px;
+            font: 500 14px/20px Roboto, sans-serif;
+            text-decoration: none;
+        }
+
+        .button-wrapper {
+            margin: 16px;
+            box-sizing: inherit;
+        }
+    </style>
     <script type="text/javascript">
-        function addUser() {
-            window.location.href = "add_user.jsp";
+        window.onload = function () {
+            var button = document.getElementById("add_user_button")
+            button.onmouseout = function () {
+                button.style.backgroundColor = "#039be5"
+            }
+            button.onmouseover = function () {
+                button.style.backgroundColor = "#0376A7"
+            }
         }
     </script>
 </head>
 <body>
-<button onclick="addUser()">添加用户
-</button>
+<div class="button-wrapper">
+    <a id="add_user_button" href="add_user.jsp" class="button-primary">添加用户</a>
+</div>
+
 <br>
 <%!
     UserDao userDao = new UserDaoImpl();

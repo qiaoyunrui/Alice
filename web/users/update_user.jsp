@@ -10,10 +10,12 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+
 <html>
 <head>
     <title>Alice - 修改用户信息</title>
     <%
+        response.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
         UserDao userdao = new UserDaoImpl();
         User user = null;

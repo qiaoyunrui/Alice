@@ -9,6 +9,9 @@
 <html>
 <head>
     <title>Alice - 添加用户</title>
+    <%
+        response.setCharacterEncoding("UTF-8");
+    %>
 </head>
 <body>
 <form action="users.jsp" method="post">

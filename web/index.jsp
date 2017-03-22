@@ -18,6 +18,6 @@
 <body>
 <button onclick="turn2Users()">用户列表</button>
 
+
 </body>
 </html>
-<%--include 静态包含，只能包含静态的资源，编译后想成一个资源--%>
