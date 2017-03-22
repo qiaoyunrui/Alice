@@ -7,10 +7,12 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<head>
+    <title>Alice - 享受美好的音乐</title>
+</head>
+<body>
+
+
+</body>
 </html>
+<%--include 静态包含，只能包含静态的资源，编译后想成一个资源--%>
