@@ -12,5 +12,11 @@ import kotlin.coroutines.experimental.buildSequence
  * Created by qiao1 on 2017/3/8.
  */
 fun main(args: Array<String>) {
-
+    var user = User()
+    user.setId(UUID.randomUUID().toString())
+            .setUsername("Juhezi")
+            .setPassword("123456")
+            .setPickname("乔云瑞")
+    var dao = UserDaoImpl()
+    dao.add(user)
 }

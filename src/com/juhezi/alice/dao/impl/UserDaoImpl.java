@@ -76,10 +76,10 @@ public class UserDaoImpl implements UserDao {
             User user;
             while (resultSet.next()) {
                 user = new User();
-                user.setId(resultSet.getString(0))
-                        .setUsername(resultSet.getString(1))
-                        .setPassword(resultSet.getString(2))
-                        .setPickname(resultSet.getString(3));
+                user.setId(resultSet.getString(1))
+                        .setUsername(resultSet.getString(2))
+                        .setPassword(resultSet.getString(3))
+                        .setPickname(resultSet.getString(4));
                 users.add(user);
             }
             return users;
