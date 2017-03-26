@@ -67,5 +67,4 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-out/
-src/com/juhezi/alice/db/dbconfig.properties
+/src/com/juhezi/alice/db/dbconfig.properties

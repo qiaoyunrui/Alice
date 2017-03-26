@@ -68,6 +68,24 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User findByUsername(String username) throws SQLException {
+        String sql = "select id,password,pickname," +
+                "avatar from user where username =?";
+        return (User) jdbcTemplete.query(sql, resultSet -> {
+            User user = null;
+            if (resultSet.next()) {
+                user = new User();
+                user.setId(resultSet.getString(1))
+                .setUsername(username)
+                .setPassword(resultSet.getString(2))
+                .setPickname(resultSet.getString(3))
+                .setAvatar(resultSet.getString(4));
+            }
+            return user;
+        }, username);
+    }
+
+    @Override
     public List<User> findAll() throws SQLException {
         String sql = "select id,username,password,pickname," +
                 "avatar from user";
