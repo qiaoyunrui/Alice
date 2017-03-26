@@ -18,7 +18,6 @@ public interface UserDao {
 
     public User findById(String id) throws SQLException;
 
-
     public User findByUsername(String username) throws SQLException;
 
     public List<User> findAll() throws  SQLException;
