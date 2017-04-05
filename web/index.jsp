@@ -9,15 +9,8 @@
 <html>
 <head>
     <title>Alice - 享受美好的音乐</title>
-    <script type="text/javascript">
-        function turn2Users() {
-            window.location.href = "users/users.jsp";
-        }
-    </script>
 </head>
 <body>
-<button onclick="turn2Users()">用户列表</button>
-
-
+<a href="UserServlet?method=findAll">查看所有用户</a>
 </body>
 </html>

@@ -14,11 +14,29 @@
     %>
 </head>
 <body>
-<form action="users.jsp" method="post">
-    用户名：<input type="text" name="username" required/><br>
-    密码：<input type="password" name="password" required/><br>
-    昵称：<input type="text" name="pickname" required/><br>
-    <input type="submit" value="添加"/>
+<h2>添加好友</h2>
+<form action="/UserServlet" method="post">
+    <input type="hidden" name="method" value="add"/>
+    <table>
+        <tr>
+            <td>用户名：</td>
+            <td><input type="text" name="username" required/></td>
+        </tr>
+        <tr>
+            <td>密码：</td>
+            <td><input type="password" name="password" required/></td>
+        </tr>
+        <tr>
+            <td>昵称：</td>
+            <td><input type="text" name="pickname" required/></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="确定">
+                <input type="reset" value="重置">
+            </td>
+        </tr>
+    </table>
 </form>
 </body>
 </html>

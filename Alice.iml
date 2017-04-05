@@ -12,7 +12,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/out/production/Alice" />
     <output-test url="file://$MODULE_DIR$/out/test/Alice" />
     <exclude-output />
@@ -32,6 +32,9 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="servlet-api" level="project" />
-    <orderEntry type="library" name="jsp-api" level="project" />
+    <orderEntry type="library" exported="" name="jsp-api" level="project" />
+    <orderEntry type="library" exported="" name="taglibs-standard-impl-1.2.5" level="project" />
+    <orderEntry type="library" exported="" name="jstl" level="project" />
+    <orderEntry type="library" exported="" name="standard" level="project" />
   </component>
 </module>
