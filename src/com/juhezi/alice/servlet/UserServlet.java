@@ -81,6 +81,20 @@ public class UserServlet extends HttpServlet {
     }
 
     private void update(HttpServletRequest req, HttpServletResponse resp) {
+        String id = req.getParameter("id");
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String pickname = req.getParameter("pickname");
+        User user = new User();
+        user.setId(id).setUsername(username)
+                .setPassword(password).setPickname(pickname);
+        UserDao userDao = new UserDaoImpl();
+        try {
+            userDao.update(user);
+            resp.sendRedirect(req.getContextPath() + "/UserServlet?method=findAll");
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void find(HttpServletRequest req, HttpServletResponse resp) {
@@ -89,7 +103,7 @@ public class UserServlet extends HttpServlet {
         try {
             User user = userDao.findById(id);
             req.setAttribute("user", user);
-            req.getRequestDispatcher("users/update_user.jsp").forward(req, resp);
+            req.getRequestDispatcher("users/edit.jsp").forward(req, resp);
         } catch (SQLException | ServletException | IOException e) {
             e.printStackTrace();
         }

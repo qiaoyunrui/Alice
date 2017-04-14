@@ -15,7 +15,7 @@
 </head>
 <body>
 <h2>添加好友</h2>
-<form action="/UserServlet" method="post">
+<form action="${pageContext.request.contextPath}/UserServlet" method="post">
     <input type="hidden" name="method" value="add"/>
     <table>
         <tr>
