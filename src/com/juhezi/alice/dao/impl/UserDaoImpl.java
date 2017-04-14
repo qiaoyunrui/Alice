@@ -1,5 +1,6 @@
 package com.juhezi.alice.dao.impl;
 
+import com.juhezi.alice.base.PageRoll;
 import com.juhezi.alice.base.ResultSetHandler;
 import com.juhezi.alice.dao.UserDao;
 import com.juhezi.alice.db.JDBCTemplete;
@@ -76,10 +77,10 @@ public class UserDaoImpl implements UserDao {
             if (resultSet.next()) {
                 user = new User();
                 user.setId(resultSet.getString(1))
-                .setUsername(username)
-                .setPassword(resultSet.getString(2))
-                .setPickname(resultSet.getString(3))
-                .setAvatar(resultSet.getString(4));
+                        .setUsername(username)
+                        .setPassword(resultSet.getString(2))
+                        .setPickname(resultSet.getString(3))
+                        .setAvatar(resultSet.getString(4));
             }
             return user;
         }, username);
@@ -102,5 +103,35 @@ public class UserDaoImpl implements UserDao {
             }
             return users;
         });
+    }
+
+    @Override
+    public List<User> list(PageRoll pageRoll) throws SQLException {
+        String sql1 = "select count(id) from user";
+        String sql2 = "select id,username,password,pickname," +
+                "avatar from user limit ?,?";
+        Integer count = (Integer) jdbcTemplete.query(sql1, resultSet -> {
+            if (resultSet.next()) {
+                Integer tempCount = resultSet.getInt(1);
+                return tempCount;
+            }
+            return null;
+        });
+        pageRoll.setTotalCount(count);
+        List<User> list = (List<User>) jdbcTemplete.query(sql2, resultSet -> {
+                    List<User> tempList = new ArrayList<>();
+                    User user;
+                    while (resultSet.next()) {
+                        user = new User();
+                        user.setId(resultSet.getString(1))
+                                .setUsername(resultSet.getString(2))
+                                .setPassword(resultSet.getString(3))
+                                .setPickname(resultSet.getString(4));
+                        tempList.add(user);
+                    }
+                    return tempList;
+                }, (pageRoll.getCurrPage() - 1) * pageRoll.getPageSize(),
+                pageRoll.getPageSize());
+        return list;
     }
 }

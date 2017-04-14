@@ -1,5 +1,6 @@
 package com.juhezi.alice.servlet;
 
+import com.juhezi.alice.base.PageRoll;
 import com.juhezi.alice.dao.UserDao;
 import com.juhezi.alice.dao.impl.UserDaoImpl;
 import com.juhezi.alice.domain.User;
@@ -41,12 +42,31 @@ public class UserServlet extends HttpServlet {
             case "delete":
                 delete(req, resp);
                 break;
+            case "list":
+                list(req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
+    }
+
+    private void list(HttpServletRequest req, HttpServletResponse resp) {
+        String currPage = req.getParameter("currPage");
+        PageRoll pageRoll = new PageRoll();
+        if (currPage != null) {
+            pageRoll.setCurrPage(Integer.parseInt(currPage));
+        }
+        UserDao dao = new UserDaoImpl();
+        try {
+            List<User> list = dao.list(pageRoll);
+            req.setAttribute("list", list);
+            req.setAttribute("pageRoll", pageRoll);
+            req.getRequestDispatcher("users/list.jsp").forward(req, resp);
+        } catch (SQLException | ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void delete(HttpServletRequest req, HttpServletResponse resp) {

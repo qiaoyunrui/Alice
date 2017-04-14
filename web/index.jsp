@@ -11,6 +11,6 @@
     <title>Alice - 享受美好的音乐</title>
 </head>
 <body>
-<a href="UserServlet?method=findAll">查看所有用户</a>
+<a href="UserServlet?method=list">查看所有用户</a>
 </body>
 </html>
