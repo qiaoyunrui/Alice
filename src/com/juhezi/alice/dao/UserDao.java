@@ -1,5 +1,6 @@
 package com.juhezi.alice.dao;
 
+import com.juhezi.alice.base.PageRoll;
 import com.juhezi.alice.domain.User;
 
 import java.sql.SQLException;
@@ -20,6 +21,8 @@ public interface UserDao {
 
     public User findByUsername(String username) throws SQLException;
 
-    public List<User> findAll() throws  SQLException;
+    public List<User> findAll() throws SQLException;
+
+    public List<User> list(PageRoll pageRoll) throws SQLException;
 
 }
