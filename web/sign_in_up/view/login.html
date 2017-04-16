@@ -11,7 +11,7 @@
     <script type="text/javascript" src="../js/jquery-3.2.0.min.js"></script>
 </head>
 <body>
-<div class="bg">
+<div id="con">
     <form id="login">
         <h1>Sign In</h1>
         <fieldset>
@@ -43,43 +43,6 @@
      */
 
     $(document).ready(function () {
-        $("#login").submit(function () {
-            var is_checked = $("input[type='checkbox']").is(':checked');
-            if(is_checked === true){
-                $("input[type='checkbox']").attr("value", "Re_me");
-            }else{
-                $("input[type='checkbox']").attr("value", "null");
-            }
-
-            var data = $("input").map(function () {
-                return ($(this).attr("name") + "=" + $(this).val());
-            }).get().join("&");
-
-            $.ajax({
-                type: "POST",
-                url: "../controller/LoginController.jsp",
-                data: data,
-                async: false,
-                success: function (responseText, status, xhr) {
-                    var ajaxobj = $.parseJSON(responseText);
-                    if (ajaxobj.status == "false") {
-                        $("#span").css("visibility", "visible").html(ajaxobj.message);
-                        setTimeout(function () {
-                            $("span").hide("normal");
-                        }, 5000);
-                    } else if (ajaxobj.status = "true") {
-                        window.location = "index.jsp";
-                    }
-                },
-                error:function () {
-                    alert("不知道出现了什么错误，请重试(⊙﹏⊙)b");
-                }
-            });
-            return false;
-        });
-    });
-
-    window.onload = function () {
 
         function form() {
             //获取DIV为‘box’的盒子
@@ -115,7 +78,7 @@
             var username = get_cookie("alice_username");
             var password = get_cookie("alice_password");
 
-            if (username != null && password != null) {
+            if (username !== null && password !== null) {
                 document.getElementById('username').value = username;
                 document.getElementById('password').value = password;
                 document.getElementById("checkbox").setAttribute("checked", "checked");
@@ -127,9 +90,44 @@
         //当浏览器页面发生改变时，DIV随着页面的改变居中。
         window.onresize = function () {
             form();
-        }
-    }
+        };
 
+        $("#login").submit(function () {
+            var is_checked = $("input[type='checkbox']").is(':checked');
+            if(is_checked === true){
+                $("input[type='checkbox']").attr("value", "Re_me");
+            }else{
+                $("input[type='checkbox']").attr("value", "null");
+            }
+
+            var data = $("input").map(function () {
+                return ($(this).attr("name") + "=" + $(this).val());
+            }).get().join("&");
+
+            $.ajax({
+                type: "POST",
+                data: data,
+                url: "../controller/LoginController.jsp",
+                cache:false,
+                async: false,
+                success: function (responseText, status, xhr) {
+                    var ajaxobj = $.parseJSON(responseText);
+                    if (ajaxobj.status === "false") {
+                        $("#span").css({visibility: "visible", display:"inline"}).html(ajaxobj.message);
+                        setTimeout(function () {
+                            $("span").hide("normal");
+                        }, 3000);
+                    } else if (ajaxobj.status = "true") {
+                        window.location = "index.jsp";
+                    }
+                },
+                error:function () {
+                    alert("不知道出现了什么错误，请重试(⊙﹏⊙)b");
+                }
+            });
+            return false;
+        });
+    });
 </script>
 </body>
 </html>

@@ -36,13 +36,13 @@
     </c:forEach>
     <tr>
         <td colspan="4">
-            <jsp:include page="pageroll.jsp" flush="true">
+            <jsp:include page="${pageContext.request.contextPath}/users/pageroll.jsp" flush="true">
                 <jsp:param name="action" value="UserServlet?method=list"/>
             </jsp:include>
         </td>
     </tr>
     <tr>
-        <td align="center" colspan="4"><a href="/users/add_user.jsp">添加</a></td>
+        <td align="center" colspan="4"><a href="${pageContext.request.contextPath}/users/add_user.jsp">添加</a></td>
     </tr>
 </table>
 </body>

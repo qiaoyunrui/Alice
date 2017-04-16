@@ -74,7 +74,7 @@ public class UserServlet extends HttpServlet {
         UserDao userDao = new UserDaoImpl();
         try {
             userDao.delete(id);
-            resp.sendRedirect(req.getContextPath() + "/UserServlet?method=findAll");
+            resp.sendRedirect(req.getContextPath() + "/UserServlet?method=list");
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
@@ -93,7 +93,7 @@ public class UserServlet extends HttpServlet {
                     .setId(UUID.randomUUID().toString());
             try {
                 userDao.add(user);
-                resp.sendRedirect(request.getContextPath() + "/UserServlet?method=findAll");
+                resp.sendRedirect(request.getContextPath() + "/UserServlet?method=list");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -111,7 +111,7 @@ public class UserServlet extends HttpServlet {
         UserDao userDao = new UserDaoImpl();
         try {
             userDao.update(user);
-            resp.sendRedirect(req.getContextPath() + "/UserServlet?method=findAll");
+            resp.sendRedirect(req.getContextPath() + "/UserServlet?method=list");
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
