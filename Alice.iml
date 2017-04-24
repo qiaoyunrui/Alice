@@ -36,5 +36,6 @@
     <orderEntry type="library" exported="" name="taglibs-standard-impl-1.2.5" level="project" />
     <orderEntry type="library" exported="" name="jstl" level="project" />
     <orderEntry type="library" exported="" name="standard" level="project" />
+    <orderEntry type="library" name="vue" level="application" />
   </component>
 </module>
