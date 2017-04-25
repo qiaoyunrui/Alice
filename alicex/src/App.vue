@@ -4,7 +4,6 @@
       <mu-icon-button icon="menu" slot="left" @click="toggle(true)"></mu-icon-button>
       <mu-text-field icon="search" slot="right" hintText="搜索音乐" class="appbar-search-field"></mu-text-field>
       <mu-flat-button label="播放列表" slot="right"></mu-flat-button>
-      <mu-flat-button label="我喜欢的音乐" slot="right"></mu-flat-button>
       <mu-icon-menu slot="right" icon="more_vert">
         <mu-menu-item title="关于我们" @click="openX"></mu-menu-item>
         <mu-menu-item title="Github" href="https://github.com/qiaoyunrui/Alice"></mu-menu-item>
@@ -27,7 +26,7 @@
         <h1 id="pickname" class="pickname-field" align="center">{{pickname}}</h1>
         <br/>
         <mu-raised-button id="sign_in_out" :label="user_operate" fullWidth primary
-                          @click="sign_in()"></mu-raised-button>
+                          @click="sign_operate()"></mu-raised-button>
       </div>
     </mu-drawer>
     <!--页面内容-->
@@ -103,9 +102,11 @@
         this.open = !this.open
         this.docked = !flag
       },
+      sign_operate() {  //登录或者登录逻辑判断
+        this.sign_in()
+      },
       sign_in() {
-        this.user_operate = '登出'
-        this.pickname = 'Juhezi'
+        window.location.href = 'http://localhost:8090/sign_in_up/view/login.html' //跳转到登录界面,
       },
       sing_out() {
         this.pickname = '---'
@@ -127,6 +128,7 @@
       }
     }
   }
+  //获取用户登录信息，及用户名
 </script>
 
 <style lang="less">

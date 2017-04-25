@@ -6,8 +6,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>登录</title>
-    <link rel="icon" href="../images/index.ico" type="image/x-icon"/>
-    <link rel="stylesheet" type="text/css" href="../css/log_in_up.css" />
+    <link rel="icon" href="../images/index.png" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="../css/log_in_up.css"/>
     <script type="text/javascript" src="../js/jquery-3.2.0.min.js"></script>
 </head>
 <body>
@@ -39,15 +39,15 @@
 
 <script type="text/javascript">
     /*
-    由于是遍历的input，所以chechbox也肯定是发送Re_me过去的,所以要先判断一下
+     由于是遍历的input，所以chechbox也肯定是发送Re_me过去的,所以要先判断一下
      */
 
     $(document).ready(function () {
         $("#login").submit(function () {
             var is_checked = $("input[type='checkbox']").is(':checked');
-            if(is_checked === true){
+            if (is_checked === true) {
                 $("input[type='checkbox']").attr("value", "Re_me");
-            }else{
+            } else {
                 $("input[type='checkbox']").attr("value", "null");
             }
 
@@ -71,7 +71,7 @@
                         window.location = "index.jsp";
                     }
                 },
-                error:function () {
+                error: function () {
                     alert("不知道出现了什么错误，请重试(⊙﹏⊙)b");
                 }
             });

@@ -11,7 +11,7 @@ import java.util.List;
 public interface SongDao {
 
     /**
-     * 通过歌名或者歌手名进行检索
+     * 通过歌名或者歌手名进行查询
      *
      * @param name
      * @return
