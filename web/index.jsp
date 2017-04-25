@@ -39,6 +39,7 @@
 </head>
 <body>
 <h1>Alice</h1>
+<audio src="assets/6ba32be8-efa2-4ee6-85d7-74541c7ac929.mp3" controls></audio>
 <div class="button-wrapper">
     <a id="sign_in_button" href="sign_in_up/view/login.html" class="button-primary">登录</a>
 </div>

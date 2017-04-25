@@ -1,9 +1,11 @@
 package com.juhezi.alice.domain;
 
+import com.juhezi.alice.util.JSONable;
+
 /**
  * Created by Juhezi on 2017/4/25.
  */
-public class Song {
+public class Song implements JSONable {
     private String id;
     private String name;    //歌名
     private String author;  //歌手
@@ -53,5 +55,20 @@ public class Song {
     public Song setPath(String path) {
         this.path = path;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", path='" + path + '\'' +
+                '}';
+    }
+
+    @Override
+    public String toJSON() {
+        return "{" + "\"id\":\"" + id + "\",\"name\":\"" + name + "\",\"author\":\"" + author + "\",\"path\":\"" + path + "\"}";
     }
 }

@@ -21,6 +21,16 @@ public class SongDaoImpl implements SongDao {
     }
 
     @Override
+    public void add(Song song) throws SQLException {
+        String sql = "INSERT IGNORE INTO al_songrepertory(songid, songname, songstername, path, isdelete) " +
+                "VALUES (?,?,?,?,'1')";
+        jdbcTemplete.update(sql, song.getId(),
+                song.getName(),
+                song.getAuthor(),
+                song.getPath());
+    }
+
+    @Override
     public List<Song> findByName(String name) throws SQLException {
         String sql = "select songid,songname from al_songrepertory " +
                 "where songname=? or songtername=? and isdelete = '1'";

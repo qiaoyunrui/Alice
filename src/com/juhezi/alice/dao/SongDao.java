@@ -11,6 +11,13 @@ import java.util.List;
 public interface SongDao {
 
     /**
+     * 添加歌曲
+     * @param song
+     * @throws SQLException
+     */
+    void add(Song song) throws SQLException;
+
+    /**
      * 通过歌名或者歌手名进行查询
      *
      * @param name
@@ -21,6 +28,7 @@ public interface SongDao {
 
     /**
      * 通过歌曲 id 进行查询
+     *
      * @param id
      * @return
      * @throws SQLException
