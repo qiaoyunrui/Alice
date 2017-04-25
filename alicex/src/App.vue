@@ -24,19 +24,25 @@
     <!--左侧弹出菜单-->
     <mu-drawer :open="open" :docked="docked" @close="toggle()">
       <div class="container">
-        <h1 id="pickname" class="pickname-field" align="center">Juhezi</h1>
+        <h1 id="pickname" class="pickname-field" align="center">{{pickname}}</h1>
         <br/>
-        <mu-raised-button id="sign_in_out" label="退出登录" fullWidth primary></mu-raised-button>
+        <mu-raised-button id="sign_in_out" :label="user_operate" fullWidth primary
+                          @click="sign_in()"></mu-raised-button>
       </div>
     </mu-drawer>
-    <!--中央控制模块-->
-    <div align="center" class="fill_main">
+    <!--页面内容-->
+    <div align="center" id="content">
+      <!--歌曲控制模块-->
       <div align="center" class="play-ctrl">
         <mu-card>
-          <mu-card-title title="刚好遇见你" subTitle="李玉刚"></mu-card-title>
+          <mu-card-media>
+            <img src="./assets/images/background.jpg"/>
+          </mu-card-media>
+          <mu-card-title :title="songname" :subTitle="songer"></mu-card-title>
           <mu-card-actions>
-            <mu-flat-button label="Action 1"></mu-flat-button>
-            <mu-flat-button label="Action 2"></mu-flat-button>
+            <mu-flat-button icon="skip_previous"></mu-flat-button>
+            <mu-flat-button :icon="isplaying ? 'pause' : 'play_arrow'" @click="changePlayState"></mu-flat-button>
+            <mu-flat-button icon="skip_next"></mu-flat-button>
           </mu-card-actions>
         </mu-card>
       </div>
@@ -73,7 +79,12 @@
       return {
         dialog: false,
         open: false,
-        docked: true
+        docked: true,
+        songname: '刚好遇见你',
+        songer: '李玉刚',
+        pickname: '---',
+        user_operate: '登录',
+        isplaying: false
       }
     },
     methods: {
@@ -86,6 +97,17 @@
       toggle (flag) {
         this.open = !this.open
         this.docked = !flag
+      },
+      sign_in() {
+        this.user_operate = '登出'
+        this.pickname = 'Juhezi'
+      },
+      sing_out() {
+        this.pickname = '---'
+        this.user_operate = '登录'
+      },
+      changePlayState() {
+        this.isplaying = !this.isplaying
       }
     }
   }
@@ -115,8 +137,11 @@
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
+  }
+
+  #content {
+    margin-top: 100px;
+    margin-bottom: 100px;
   }
 
   .container {
@@ -130,11 +155,5 @@
   .play-ctrl {
     width: 500px;
   }
-
-  .fill_main {
-    background: #00f;
-    width: 100%;
-  }
-
 
 </style>
