@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "jquery": "^2.2.4",
     "muse-ui": "^2.0.2",
     "vue": "^2.2.6",
     "vue-style-loader": "^2.0.5"

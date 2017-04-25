@@ -32,8 +32,8 @@ public class SongDaoImpl implements SongDao {
 
     @Override
     public List<Song> findByName(String name) throws SQLException {
-        String sql = "select songid,songname from al_songrepertory " +
-                "where songname=? or songtername=? and isdelete = '1'";
+        String sql = "select songid,songname,songstername,path from al_songrepertory " +
+                "where songname=? or songstername=? and isdelete = '1'";
         return (List<Song>) jdbcTemplete.query(sql, resultSet -> {
             List<Song> list = new ArrayList<>();
             Song song;
@@ -52,7 +52,7 @@ public class SongDaoImpl implements SongDao {
     @Override
     public Song findById(String id) throws SQLException {
         String sql = "select songid,songname,songstername,path " +
-                "from al_songrepertory where id =?";
+                "from al_songrepertory where songid =?";
         return (Song) jdbcTemplete.query(sql, resultSet -> {
             Song song = null;
             if (resultSet.next()) {

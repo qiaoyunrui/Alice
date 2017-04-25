@@ -2,7 +2,9 @@
   <div id="app">
     <mu-appbar title="Alice - 聆听这个世界">
       <mu-icon-button icon="menu" slot="left" @click="toggle(true)"></mu-icon-button>
-      <mu-text-field icon="search" slot="right" hintText="搜索音乐" class="appbar-search-field"></mu-text-field>
+      <mu-text-field icon="search" slot="right" hintText="搜索音乐" v-model="name"
+                     class="appbar-search-field"></mu-text-field>
+      <mu-flat-button label="搜索" slot="right" @click="search"></mu-flat-button>
       <mu-flat-button label="播放列表" slot="right"></mu-flat-button>
       <mu-icon-menu slot="right" icon="more_vert">
         <mu-menu-item title="关于我们" @click="openX"></mu-menu-item>
@@ -46,6 +48,15 @@
         </mu-card>
       </div>
     </div>
+    <!--搜索信息对话框-->
+    <div>
+      <mu-dialog :open="findResult" @close="" title="Scrollable Dialog" scrollable>
+        <mu-menu>
+          <mu-menu-item :title="'menu item ' + menu" v-for="menu, index in menus" :key="index"></mu-menu-item>
+        </mu-menu>
+        <mu-flat-button primary label="关闭" @click="hideFindResult" slot="actions"></mu-flat-button>
+      </mu-dialog>
+    </div>
   </div>
 </template>
 
@@ -65,6 +76,7 @@
   import MuAvatar from "../node_modules/muse-ui/src/avatar/avatar";
   import MuCardMedia from "../node_modules/muse-ui/src/card/cardMedia";
   import MuCardTitle from "../node_modules/muse-ui/src/card/cardTitle";
+  import $ from 'jquery';
   export default {
     components: {
       MuCardTitle,
@@ -79,16 +91,25 @@
       MuListItem
     },
     data () {
+      const menus = []
+      for (let i = 0; i < 30; i++) {
+        menus.push(i + 1)
+      }
       //初始值
       return {
         dialog: false,
         open: false,
         docked: true,
+        id: '000',
         songname: '刚好遇见你',
         songer: '李玉刚',
+        path: '../static/test.mp3',
         pickname: '---',
         user_operate: '登录',
-        isplaying: false
+        isplaying: false,
+        name: "薛之谦",
+        findResult: false,
+        menus
       }
     },
     methods: {
@@ -125,6 +146,20 @@
       },
       pauseX() {  //暂停播放
         audios.pause()
+      },
+      showFindResult() {
+        this.findResult = true
+      },
+      hideFindResult() {
+        this.findResult = false
+      },
+      search() {
+        //name 为关键字，搜索
+        var url = "http://localhost:8090/SongServlet?method=findByName&name=" + this.name
+        $.get(url, function (data) {
+
+        })
+        this.showFindResult();
       }
     }
   }
