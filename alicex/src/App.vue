@@ -51,6 +51,11 @@
 </template>
 
 <script>
+  var audios = document.createElement('audio');
+  //添加音乐地址
+  audios.src = '../static/test.mp3';
+  //插入音乐标签
+  document.body.appendChild(audios)
   import MuListItem from "../node_modules/muse-ui/src/list/listItem";
   import MuDrawer from "../node_modules/muse-ui/src/drawer/drawer";
   import MuCardText from "../node_modules/muse-ui/src/card/cardText";
@@ -108,6 +113,17 @@
       },
       changePlayState() {
         this.isplaying = !this.isplaying
+        if (this.isplaying) {  //正在播放
+          this.playX();
+        } else {
+          this.pauseX();
+        }
+      },
+      playX() { //开始播放
+        audios.play()
+      },
+      pauseX() {  //暂停播放
+        audios.pause()
       }
     }
   }
@@ -142,6 +158,10 @@
   #content {
     margin-top: 100px;
     margin-bottom: 100px;
+  }
+
+  body {
+    background-color: #0ff;
   }
 
   .container {
