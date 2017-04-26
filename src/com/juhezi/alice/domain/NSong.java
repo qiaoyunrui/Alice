@@ -1,9 +1,11 @@
 package com.juhezi.alice.domain;
 
+import com.juhezi.alice.util.JSONable;
+
 /**
  * Created by Juhezi on 2017/4/26.
  */
-public class NSong {
+public class NSong implements JSONable {
 
     private String userId;
     private String songId;
@@ -13,6 +15,14 @@ public class NSong {
     private boolean isDelete;
 
     public NSong() {
+    }
+
+    public NSong(Song song,String userId) {
+        this.userId = userId;
+        this.songId = song.getId();
+        this.songName = song.getName();
+        this.author = song.getAuthor();
+        this.path = song.getPath();
     }
 
     public NSong(String userId, String songId, String songName, String author, String path, boolean isDelete) {
@@ -76,5 +86,11 @@ public class NSong {
     public NSong setPath(String path) {
         this.path = path;
         return this;
+    }
+
+    @Override
+    public String toJSON() {
+        return "{" + "\"userId\":\"" + userId + "\",\"songId\":\"" + songId + "\",\"songName\":\"" +
+                songName + "\",\"author\":\"" + author + "\",\"path\":\"" + path + "\"}";
     }
 }

@@ -7,9 +7,17 @@
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>com.juhezi.alice.servlet.UserServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NSongServet</servlet-name>
+        <servlet-class>com.juhezi.alice.servlet.NSongServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/UserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NSongServet</servlet-name>
+        <url-pattern>/NSongServet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

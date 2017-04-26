@@ -1,8 +1,12 @@
 package com.juhezi.alice.servlet;
 
 import com.juhezi.alice.dao.NSongDao;
+import com.juhezi.alice.dao.SongDao;
 import com.juhezi.alice.dao.impl.NSongDaoImpl;
+import com.juhezi.alice.dao.impl.SongDaoImpl;
 import com.juhezi.alice.domain.NSong;
+import com.juhezi.alice.domain.Song;
+import com.juhezi.alice.util.JSON;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.sun.javafx.fxml.expression.Expression.add;
@@ -41,16 +46,37 @@ public class NSongServlet extends HttpServlet {
         }
     }
 
-    private void delete(HttpServletRequest req, HttpServletResponse resp) {
-
-    }
-
     private void findAll(HttpServletRequest request, HttpServletResponse response) {
         String userid = request.getParameter("userid");
         NSongDao dao = new NSongDaoImpl();
         try {
             List<NSong> nsongs = dao.findAll(userid);
+            response.getWriter().print(JSON.toJSON(new ArrayList<>(nsongs)));
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void add(HttpServletRequest request, HttpServletResponse response) {
+        String songid = request.getParameter("songid");
+        String userid = request.getParameter("userid");
+        NSongDao dao = new NSongDaoImpl();
+        SongDao sdao = new SongDaoImpl();
+        try {
+            Song song = sdao.findById(songid);
+            NSong nSong = new NSong(song, userid);
+            dao.add(nSong);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void delete(HttpServletRequest req, HttpServletResponse resp) {
+        String songid = req.getParameter("songid");
+        String userid = req.getParameter("userid");
+        NSongDao dao = new NSongDaoImpl();
+        try {
+            dao.delete(userid, songid);
         } catch (SQLException e) {
             e.printStackTrace();
         }
