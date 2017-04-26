@@ -5,7 +5,7 @@
       <mu-text-field icon="search" slot="right" hintText="搜索音乐" v-model="name"
                      class="appbar-search-field"></mu-text-field>
       <mu-flat-button label="搜索" slot="right" @click="search"></mu-flat-button>
-      <mu-flat-button label="播放列表" slot="right"></mu-flat-button>
+      <mu-flat-button label="播放列表" slot="right" @click="openSongList"></mu-flat-button>
       <mu-icon-menu slot="right" icon="more_vert">
         <mu-menu-item title="关于我们" @click="openX"></mu-menu-item>
         <mu-menu-item title="Github" href="https://github.com/qiaoyunrui/Alice"></mu-menu-item>
@@ -64,6 +64,19 @@
         <mu-flat-button primary label="关闭" @click="hideFindResult" slot="actions"></mu-flat-button>
       </mu-dialog>
     </div>
+    <!--播放列表-->
+    <div>
+      <mu-drawer right :open="songList">
+        <mu-appbar title="播放列表"></mu-appbar>
+        <mu-flat-button icon="close" label="关闭" secondary class="match-parent"
+                        @click="songList = false"></mu-flat-button>
+        <mu-list>
+          <mu-list-item title="Menu Item 1"></mu-list-item>
+          <mu-list-item title="Menu Item 2"></mu-list-item>
+          <mu-list-item title="Menu Item 3"></mu-list-item>
+        </mu-list>
+      </mu-drawer>
+    </div>
   </div>
 </template>
 
@@ -118,7 +131,8 @@
         isplaying: false,
         name: "薛之谦",
         findResult: false,
-        findList
+        findList,
+        songList: false //播放列表
       }
     },
     created: function () {
@@ -183,6 +197,10 @@
         this.currentSong = song
         audios.play()
         this.isplaying = true
+      },
+      openSongList() {
+        //判断是否登录
+        this.songList = true
       }
     }
   }
@@ -243,5 +261,10 @@
   .center {
     margin-top: auto;
     margin-bottom: auto;
+  }
+
+  .match-parent {
+    width: 100%;
+    margin: 5px;
   }
 </style>
