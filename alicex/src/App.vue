@@ -41,9 +41,9 @@
           </mu-card-media>
           <mu-card-title :title="currentSong.name" :subTitle="currentSong.author"></mu-card-title>
           <mu-card-actions>
-            <mu-flat-button icon="skip_previous"></mu-flat-button>
+            <mu-flat-button icon="skip_previous" @click="prev"></mu-flat-button>
             <mu-flat-button :icon="isplaying ? 'pause' : 'play_arrow'" @click="changePlayState"></mu-flat-button>
-            <mu-flat-button icon="skip_next"></mu-flat-button>
+            <mu-flat-button icon="skip_next" @click="next"></mu-flat-button>
           </mu-card-actions>
         </mu-card>
       </div>
@@ -56,8 +56,8 @@
                         disabled>
             <mu-avatar backgroundColor="blue" slot="leftAvatar">{{index}}</mu-avatar>
             <mu-icon-button icon="play_arrow" slot="rightAvatar" tooltip="播放" class="center"
-                            @click="playSong(song)"></mu-icon-button>
-            <mu-icon-button icon="add" tooltip="添加到播放列表"></mu-icon-button>
+                            @click="playSong(song,-1)"></mu-icon-button>
+            <mu-icon-button icon="add" tooltip="添加到播放列表" @click="addSong(song.id)"></mu-icon-button>
             <mu-icon-button icon="more_horiz" tooltip="更多"></mu-icon-button>
           </mu-list-item>
         </mu-list>
@@ -71,9 +71,13 @@
         <mu-flat-button icon="close" label="关闭" secondary class="match-parent"
                         @click="songList = false"></mu-flat-button>
         <mu-list>
-          <mu-list-item title="Menu Item 1"></mu-list-item>
-          <mu-list-item title="Menu Item 2"></mu-list-item>
-          <mu-list-item title="Menu Item 3"></mu-list-item>
+          <mu-list-item :title="song.name" :describeText="song.author" v-for="(song,index) in songs" :key="index"
+                        disabled>
+            <mu-icon-button icon="play_arrow" tooltip="播放" class="center"
+                            @click="playSong(song,index)"></mu-icon-button>
+            <mu-icon-button icon="delete" tooltip="删除" class="center"
+                            @click="deleteSong(index)"></mu-icon-button>
+          </mu-list-item>
         </mu-list>
       </mu-drawer>
     </div>
@@ -118,6 +122,7 @@
     },
     data () {
       const findList = [] //搜索结果
+      const songs = []  //当前播放列表
       //初始值
       return {
         dialog: false,
@@ -131,7 +136,9 @@
         name: "薛之谦",
         findResult: false,
         findList,
-        songList: false //播放列表
+        songList: false, //播放列表
+        songs,
+        index: -1
       }
     },
     created: function () {
@@ -197,15 +204,18 @@
           _self.showFindResult()
         })
       },
-      playSong(song) {
+      playSong(song, index) {
         audios.src = song.path
         this.currentSong = song
         audios.play()
         this.isplaying = true
+        this.index = index
       },
       openSongList() {
         //判断是否登录
-        this.songList = true
+        if (this.isOnline) {
+          this.getSongList()
+        }
       },
       getUserInfo() {  //获取登录状态
         var url = window.location.toString()
@@ -224,6 +234,48 @@
             this.isOnline = line2[1]
             this.username = line1[1]
           }
+        }
+      },
+      addSong(songid) { //添加歌曲到播放列表
+        var url = "http://localhost:8090/NSongServet?method=add&songid=" + songid + "&userid=" + this.username
+        $.get(url, function (data) {
+        })
+      },
+      getSongList() { //获取播放列表
+        this.songs = []
+        var url = "http://localhost:8090/NSongServet?method=findAll&userid=" + this.username
+        var _self = this
+        $.get(url, function (data) {
+          var list = eval(data)
+          for (let i = 0; i < list.length; i++) {
+            _self.songs.push(new Song(list[i].songId, list[i].songName, list[i].author, list[i].path))
+          }
+          _self.songList = true
+        })
+      },
+      deleteSong(index) {
+        var url = "http://localhost:8090/NSongServet?method=delete&songid=" + this.songs[index].id + "&userid=" + this.username
+        var _self = this
+        $.get(url, function (data) {
+          _self.songs.splice(index)
+        })
+      },
+      next() { //下一首
+        if (this.index == -1 || this.index + 1 >= this.songs.length) {
+          this.playSong(this.songs[0], 0)
+          index = 0
+        } else {
+          this.index++
+          this.playSong(this.songs[this.index], this.index)
+        }
+      },
+      prev() { //上一首
+        if (this.index <= 0 || this.index - 1 >= this.songs.length) {
+          this.playSong(this.songs[this.songs.length - 1], this.songs.length - 1)
+          index = 0
+        } else {
+          this.index--
+          this.playSong(this.songs[this.index], this.index)
         }
       }
     }

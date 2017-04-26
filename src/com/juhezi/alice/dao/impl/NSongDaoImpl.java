@@ -25,12 +25,12 @@ public class NSongDaoImpl implements NSongDao {
         jdbcTemplete.update(sql, song.getUserId(),
                 song.getSongId(),
                 song.getSongName(),
-                song.isDelete());
+                song.isDelete() ? "0" : "1");
     }
 
     @Override
     public void delete(String userId, String songId) throws SQLException {
-        String sql = "UPDATE al_songlist SET isdelete = 0 WHERE userid =? AND songid =?";
+        String sql = "UPDATE al_songlist SET isdelete = '0' WHERE userid =? AND songid =?";
         jdbcTemplete.update(sql, userId, songId);
     }
 
@@ -41,8 +41,8 @@ public class NSongDaoImpl implements NSongDao {
                 " a.songname," +
                 " a.songstername," +
                 " a.path" +
-                "FROM al_songrepertory a, al_songlist b" +
-                "WHERE" +
+                " FROM al_songrepertory a, al_songlist b" +
+                " WHERE" +
                 " b.userid = ? AND a.songid = b.songid AND b.isdelete = '1'";
         return (List<NSong>) jdbcTemplete.query(sql, resultSet -> {
             List<NSong> list = new ArrayList<>();
