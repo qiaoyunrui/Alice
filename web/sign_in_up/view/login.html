@@ -30,13 +30,12 @@
             };
 
             $("#login").submit(function () {
-                var is_checked = $("input[type='checkbox']").is(':checked');
-                if (is_checked === true) {
-                    $("input[type='checkbox']").attr({value: "Re_me", checked: "checked"});
-                } else {
-                    $("input[type='checkbox']").attr("value", "null");
-                }
-
+                /*var is_checked = $("input[type='checkbox']").is(':checked');
+                 if (is_checked === true) {
+                 $("input[type='checkbox']").attr({value: "Re_me", checked: "checked"});
+                 } else {
+                 $("input[type='checkbox']").attr("value", "null");
+                 }*/
                 var data = $("input").map(function () {
                     return ($(this).attr("name") + "=" + $(this).val());
                 }).get().join("&");
@@ -54,11 +53,12 @@
                             }, 3000);
                         } else if (ajaxobj.status = "true") {
                             var url = "http://localhost:8080"
-                            var username = $('#username').attr("value")     //数据获取失败
-                                document.write('<form id="post" name="post" action="' + url + '" method="get">');   //要修改为post操作
-                            document.write('<input type="hidden" name="username" value="' + username + '" />');
-                            document.write('</form>');
-                            document.getElementById('post').submit();
+//                            window.location = url + "?" + document.cookie;  //sign in OK
+                            $("#anonymous-main").attr("src", url + "?" + document.cookie)
+                            var am = document.getElementById("anonymous-main")
+                            am.onload = function () {
+                                window.location = url
+                            }
                         }
                     },
                     error: function () {
@@ -71,6 +71,7 @@
     </script>
 </head>
 <body>
+<iframe width="100px" height="100px" id="anonymous-main" src="http://www.baidu.com" style="display: none"></iframe>
 <div id="con">
     <form id="login">
         <h1>Sign In</h1>

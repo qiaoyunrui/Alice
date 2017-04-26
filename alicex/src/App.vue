@@ -82,8 +82,6 @@
 
 <script>
   var audios = document.createElement('audio');
-  //添加音乐地址
-  //  audios.src = '../static/test.mp3';
   //插入音乐标签
   document.body.appendChild(audios)
   function Song(id, name, author, path) {
@@ -152,14 +150,19 @@
         this.docked = !flag
       },
       sign_operate() {  //登录或者登录逻辑判断
-        this.sign_in()
+        if (!this.isOnline) {
+          this.sign_in()
+        } else {
+          this.sign_out()
+        }
       },
       sign_in() {
         window.location.href = 'http://localhost:8090/sign_in_up/view/login.html' //跳转到登录界面,
       },
-      sing_out() {
-        this.pickname = '---'
-        this.user_operate = '登录'
+      sign_out() {
+        document.cookie = "online=false; alice_username=" + this.username
+        this.isOnline = false
+        this.username = '---'
       },
       changePlayState() {
         this.isplaying = !this.isplaying
@@ -205,10 +208,22 @@
         this.songList = true
       },
       getUserInfo() {  //获取登录状态
-        alert(this.username + " ")
-        if (this.isOnline === null || this.isOnline === false) {
-          this.isOnline = false
-          this.username = '---'
+        var url = window.location.toString()
+        var get = url.split("?");
+        if (get.length === 2) { //get 方式
+          var cok = get[1]
+          document.cookie = get[1]; //保存 cookie
+        } else {  //从 cookie 中获取数据，解析cookie
+          var coks = document.cookie.split("; ")
+          var line1 = coks[0].split("=")
+          var line2 = coks[1].split("=")
+          if (line1[0] === "online") {
+            this.isOnline = line1[1]
+            this.username = line2[1]
+          } else {
+            this.isOnline = line2[1]
+            this.username = line1[1]
+          }
         }
       }
     }
