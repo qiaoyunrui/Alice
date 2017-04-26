@@ -25,9 +25,9 @@
     <!--左侧弹出菜单-->
     <mu-drawer :open="open" :docked="docked" @close="toggle()">
       <div class="container">
-        <h1 id="pickname" class="pickname-field" align="center">{{pickname}}</h1>
+        <h1 id="pickname" class="pickname-field" align="center">{{username}}</h1>
         <br/>
-        <mu-raised-button id="sign_in_out" :label="user_operate" fullWidth primary
+        <mu-raised-button id="sign_in_out" :label="isOnline ? '退出登录':'登录'" fullWidth primary
                           @click="sign_operate()"></mu-raised-button>
       </div>
     </mu-drawer>
@@ -126,8 +126,9 @@
         open: false,
         docked: true,
         currentSong: new Song('000', '刚好遇到你', '李玉刚', '../static/test.mp3'),
-        pickname: '---',
+        username: '---',
         user_operate: '登录',
+        isOnline: false,
         isplaying: false,
         name: "薛之谦",
         findResult: false,
@@ -137,6 +138,7 @@
     },
     created: function () {
       audios.src = this.currentSong.path
+      this.getUserInfo()  //进入界面就进行判断
     },
     methods: {
       openX() {
@@ -201,6 +203,13 @@
       openSongList() {
         //判断是否登录
         this.songList = true
+      },
+      getUserInfo() {  //获取登录状态
+        alert(this.username + " ")
+        if (this.isOnline === null || this.isOnline === false) {
+          this.isOnline = false
+          this.username = '---'
+        }
       }
     }
   }

@@ -31,9 +31,9 @@
 
             $("#login").submit(function () {
                 var is_checked = $("input[type='checkbox']").is(':checked');
-                if(is_checked === true){
-                    $("input[type='checkbox']").attr({value:"Re_me", checked:"checked"});
-                }else{
+                if (is_checked === true) {
+                    $("input[type='checkbox']").attr({value: "Re_me", checked: "checked"});
+                } else {
                     $("input[type='checkbox']").attr("value", "null");
                 }
 
@@ -48,15 +48,20 @@
                     success: function (responseText, status, xhr) {
                         var ajaxobj = $.parseJSON(responseText);
                         if (ajaxobj.status === "false") {
-                            $("#span").css({visibility: "visible", display:"inline"}).html(ajaxobj.message);
+                            $("#span").css({visibility: "visible", display: "inline"}).html(ajaxobj.message);
                             setTimeout(function () {
                                 $("span").hide("normal");
                             }, 3000);
                         } else if (ajaxobj.status = "true") {
-                            window.location = "index.jsp";
+                            var url = "http://localhost:8080"
+                            var username = $('#username').attr("value")     //数据获取失败
+                                document.write('<form id="post" name="post" action="' + url + '" method="get">');   //要修改为post操作
+                            document.write('<input type="hidden" name="username" value="' + username + '" />');
+                            document.write('</form>');
+                            document.getElementById('post').submit();
                         }
                     },
-                    error:function () {
+                    error: function () {
                         alert("不知道出现了什么错误");
                     }
                 });
