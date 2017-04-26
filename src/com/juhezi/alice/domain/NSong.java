@@ -17,6 +17,14 @@ public class NSong implements JSONable {
     public NSong() {
     }
 
+    public NSong(Song song, String userId) {
+        this.userId = userId;
+        this.songId = song.getId();
+        this.songName = song.getName();
+        this.author = song.getAuthor();
+        this.path = song.getPath();
+    }
+
     public NSong(String userId, String songId, String songName, String author, String path, boolean isDelete) {
         this.userId = userId;
         this.songId = songId;
