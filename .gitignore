@@ -68,3 +68,4 @@ crashlytics-build.properties
 fabric.properties
 
 /src/com/juhezi/alice/db/dbconfig.properties
+assets
