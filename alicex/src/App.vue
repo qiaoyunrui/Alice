@@ -39,7 +39,7 @@
           <mu-card-media>
             <img src="./assets/images/background.jpg"/>
           </mu-card-media>
-          <mu-card-title :title="songname" :subTitle="songer"></mu-card-title>
+          <mu-card-title :title="currentSong.name" :subTitle="currentSong.author"></mu-card-title>
           <mu-card-actions>
             <mu-flat-button icon="skip_previous"></mu-flat-button>
             <mu-flat-button :icon="isplaying ? 'pause' : 'play_arrow'" @click="changePlayState"></mu-flat-button>
@@ -50,10 +50,17 @@
     </div>
     <!--搜索信息对话框-->
     <div>
-      <mu-dialog :open="findResult" @close="" title="Scrollable Dialog" scrollable>
-        <mu-menu>
-          <mu-menu-item :title="'menu item ' + menu" v-for="menu, index in menus" :key="index"></mu-menu-item>
-        </mu-menu>
+      <mu-dialog :open="findResult" @close="" title="搜索结果" scrollable>
+        <mu-list>
+          <mu-list-item :title="song.name" :describeText="song.author" v-for="(song,index) in findList" :key="index"
+                        disabled>
+            <mu-avatar backgroundColor="blue" slot="leftAvatar">{{index}}</mu-avatar>
+            <mu-icon-button icon="play_arrow" slot="rightAvatar" tooltip="播放" class="center"
+                            @click="playSong(song)"></mu-icon-button>
+            <mu-icon-button icon="add" tooltip="添加到播放列表"></mu-icon-button>
+            <mu-icon-button icon="more_horiz" tooltip="更多"></mu-icon-button>
+          </mu-list-item>
+        </mu-list>
         <mu-flat-button primary label="关闭" @click="hideFindResult" slot="actions"></mu-flat-button>
       </mu-dialog>
     </div>
@@ -63,9 +70,15 @@
 <script>
   var audios = document.createElement('audio');
   //添加音乐地址
-  audios.src = '../static/test.mp3';
+  //  audios.src = '../static/test.mp3';
   //插入音乐标签
   document.body.appendChild(audios)
+  function Song(id, name, author, path) {
+    this.id = id
+    this.name = name
+    this.author = author
+    this.path = path
+  }
   import MuListItem from "../node_modules/muse-ui/src/list/listItem";
   import MuDrawer from "../node_modules/muse-ui/src/drawer/drawer";
   import MuCardText from "../node_modules/muse-ui/src/card/cardText";
@@ -77,8 +90,10 @@
   import MuCardMedia from "../node_modules/muse-ui/src/card/cardMedia";
   import MuCardTitle from "../node_modules/muse-ui/src/card/cardTitle";
   import $ from 'jquery';
+  import MuIconButton from "../node_modules/muse-ui/src/iconButton/iconButton";
   export default {
     components: {
+      MuIconButton,
       MuCardTitle,
       MuCardMedia,
       MuAvatar,
@@ -91,26 +106,23 @@
       MuListItem
     },
     data () {
-      const menus = []
-      for (let i = 0; i < 30; i++) {
-        menus.push(i + 1)
-      }
+      const findList = [] //搜索结果
       //初始值
       return {
         dialog: false,
         open: false,
         docked: true,
-        id: '000',
-        songname: '刚好遇见你',
-        songer: '李玉刚',
-        path: '../static/test.mp3',
+        currentSong: new Song('000', '刚好遇到你', '李玉刚', '../static/test.mp3'),
         pickname: '---',
         user_operate: '登录',
         isplaying: false,
         name: "薛之谦",
         findResult: false,
-        menus
+        findList
       }
+    },
+    created: function () {
+      audios.src = this.currentSong.path
     },
     methods: {
       openX() {
@@ -155,11 +167,22 @@
       },
       search() {
         //name 为关键字，搜索
+        this.findList = []
         var url = "http://localhost:8090/SongServlet?method=findByName&name=" + this.name
+        var _self = this
         $.get(url, function (data) {
-
+          var list = eval(data)
+          for (let i = 0; i < list.length; i++) {
+            _self.findList.push(new Song(list[i].id, list[i].name, list[i].author, list[i].path))
+          }
+          _self.showFindResult()
         })
-        this.showFindResult();
+      },
+      playSong(song) {
+        audios.src = song.path
+        this.currentSong = song
+        audios.play()
+        this.isplaying = true
       }
     }
   }
@@ -183,6 +206,7 @@
       background-color: #FFF;
     }
   }
+
 </style>
 
 <style>
@@ -213,4 +237,11 @@
     width: 500px;
   }
 
+</style>
+
+<style scoped>
+  .center {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 </style>
