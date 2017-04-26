@@ -9,6 +9,57 @@
     <title>注册</title>
     <link rel="stylesheet" type="text/css" href="../css/log_in_up.css" />
     <script type="text/javascript" src="../js/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" async="async">
+        $(document).ready(function () {
+            function form() {
+                var oform = document.getElementById('login');
+                var L1 = oform.offsetWidth;
+                var H1 = oform.offsetHeight;
+                var Left = (document.documentElement.clientWidth - L1) / 2;
+                var top = (document.documentElement.clientHeight - H1) / 2;
+                oform.style.left = Left + 'px';
+                oform.style.top = top + 'px';
+            }
+
+            form();
+
+            window.onresize = function () {
+                form();
+            };
+
+            $("#login").submit(function () {
+                var input = $("input");
+                var data = input.map(function () {
+                    return ($(this).attr("name") + "=" + $(this).val());
+                }).get().join("&");
+
+                $.ajax({
+                    type:"POST",
+                    url:"../controller/SignupController.jsp",
+                    data:data,
+                    cache:false,
+                    async:false,
+                    success:function (responsetext, status, xhr) {
+                        var ajaxobj = $.parseJSON(responsetext);
+                        if(ajaxobj.status === "true"){
+                            $("#span").css({visibility: "visible", display:"inline"}).html("注册成功");
+                            setTimeout(function () {window.location = "login.html";}, 2000);
+                        }else if(ajaxobj.status === "false"){
+                            $("#span").css({visibility: "visible", display:"inline"}).html(ajaxobj.message);
+                            setTimeout(function () {
+                                $("span").hide("normal");
+                            }, 3000);
+                        }
+                    },
+                    error:function () {
+                        alert("不知道出现了什么错误，请重试(⊙﹏⊙)b");
+                    }
+                });
+
+                return false;
+            });
+        });
+    </script>
 </head>
 <body>
 <div id="con">
@@ -30,70 +81,5 @@
         </div>
     </form>
 </div>
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        function form() {
-            var oform = document.getElementById('login');
-            var L1 = oform.offsetWidth;
-            var H1 = oform.offsetHeight;
-            var Left = (document.documentElement.clientWidth - L1) / 2;
-            var top = (document.documentElement.clientHeight - H1) / 2;
-            oform.style.left = Left + 'px';
-            oform.style.top = top + 'px';
-        }
-
-        form();
-
-        window.onresize = function () {
-            form();
-        };
-
-        $("#login").submit(function () {
-            var input = $("input");
-            /*var map = input.map(function () {
-                return $(this).val();
-            });
-
-            if(map.get(1) !== map.get(2)) {
-                $("#span").css("visibility", "visible").html("密码不一致");
-                setTimeout(function () {
-                    $("#span").hide("normal");
-                }, 5000);
-            }*/
-
-
-            var data = input.map(function () {
-                return ($(this).attr("name") + "=" + $(this).val());
-            }).get().join("&");
-
-            $.ajax({
-                type:"POST",
-                url:"../controller/SignupController.jsp",
-                data:data,
-                cache:false,
-                async:false,
-                success:function (responsetext, status, xhr) {
-                    var ajaxobj = $.parseJSON(responsetext);
-                    if(ajaxobj.status == "true"){
-                        $("#span").css({visibility: "visible", display:"inline"}).html("注册成功");
-                        setTimeout(function () {window.location = "login.html";}, 2000);
-                    }else if(ajaxobj.status == "false"){
-                        $("#span").css({visibility: "visible", display:"inline"}).html(ajaxobj.message);
-                        setTimeout(function () {
-                            $("span").hide("normal");
-                        }, 3000);
-                    }
-                },
-                error:function () {
-                    alert("不知道出现了什么错误，请重试(⊙﹏⊙)b");
-                }
-            });
-
-            return false;
-        });
-    });
-</script>
 </body>
 </html>
