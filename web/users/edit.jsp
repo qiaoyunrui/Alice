@@ -11,6 +11,9 @@
 <html>
 <head>
     <title>Alice - 编辑信息</title>
+    <%
+        response.setCharacterEncoding("UTF-8");
+    %>
 </head>
 <body>
 <h2>修改用户信息</h2>

@@ -23,7 +23,7 @@
                 cookieuser = URLDecoder.decode(cookie.getValue(),"utf-8");
             }
 
-            if(cookie.getName().equals("alice_password")){
+            if(cookie.getName().equals("online")){
                 cookiepwd = URLDecoder.decode(cookie.getValue(), "utf-8");
             }
         }
@@ -32,6 +32,6 @@
 
 <h1>这是<%=username %>主页</h1>
 <h1>账号:<%=cookieuser %></h1>
-密码:<%=cookiepwd %>
+在线状态:<%=cookiepwd %>
 </body>
 </html>
