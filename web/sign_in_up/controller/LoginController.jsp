@@ -35,16 +35,14 @@
                     if (Re_me != null && !Re_me.equals("") && Re_me.equals("Re_me")) {
 
                         EncodeUsername = URLEncoder.encode(username, "utf-8");
-                        EncodePassword = URLEncoder.encode(password, "utf-8");
                         Cookie usercookie = new Cookie("alice_username", EncodeUsername);
                         Cookie is_online = new Cookie("online", URLEncoder.encode("true", "utf-8"));
                         usercookie.setMaxAge(60 * 60 * 24 * 30);
-                        usercookie.setPath("/sign_in_up/");
+                        usercookie.setPath("/");
                         is_online.setMaxAge(60 * 60 * 24 * 30);
-                        is_online.setPath("/sign_in_up/");
+                        is_online.setPath("/");
                         response.addCookie(usercookie);
                         response.addCookie(is_online);
-                        //session.setAttribute("username", username);
 
                         response.getWriter().println(simpleJson("true", ""));
 
@@ -55,12 +53,12 @@
                             for (Cookie cookie : cookies) {
                                 if (cookie.getName().equals("alice_password")) {
                                     cookie.setMaxAge(0);
-                                    cookie.setPath("/sign_in_up/");
+                                    cookie.setPath("/");
                                     response.addCookie(cookie);
                                 }
                                 if (cookie.getName().equals("alice_username")) {
                                     cookie.setMaxAge(0);
-                                    cookie.setPath("/sign_in_up/");
+                                    cookie.setPath("/");
                                     response.addCookie(cookie);
                                 }
                             }
